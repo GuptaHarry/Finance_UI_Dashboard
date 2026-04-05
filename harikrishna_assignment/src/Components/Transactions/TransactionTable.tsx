@@ -33,8 +33,6 @@ type SortOrder = "asc" | "desc";
 export default function TransactionsTable() {
   const { role, themeMode } = useUI();
   const { transactions, setTransactions } = useTransactions();
-  
-  console.log("[v0] TransactionsTable render - role:", role, "modalOpen:", "themeMode:", themeMode);
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -90,12 +88,7 @@ export default function TransactionsTable() {
   };
 
   const handleAddTransaction = (transaction: Transaction) => {
-    console.log("[v0] Adding transaction:", transaction);
-    setTransactions((prev) => {
-      const newTransactions = [transaction, ...prev];
-      console.log("[v0] New transactions count:", newTransactions.length);
-      return newTransactions;
-    });
+    setTransactions((prev) => [transaction, ...prev]);
   };
 
   const handleEditTransaction = (transaction: Transaction) => {
@@ -333,10 +326,7 @@ export default function TransactionsTable() {
               <Button
                 variant="contained"
                 startIcon={<AddIcon />}
-                onClick={() => {
-                  console.log("[v0] Add button clicked, opening modal");
-                  setModalOpen(true);
-                }}
+                onClick={() => setModalOpen(true)}
                 sx={{
                   borderRadius: 3,
                   background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
