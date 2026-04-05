@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
-import { TransactionsContext } from "./TransactionsContext";
-import { mockTransactions } from "../data/mockTransactions";
+import { TransactionsContext } from "../Context/TransactionContext";
+import { mockTransactions } from "../Data/mockTransactions";
 import type { Transaction } from "../Types/mockTransactionType";
 
 export function TransactionsProvider({

@@ -6,7 +6,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import useTransactions from "../../context/TransactionsContext";
+import { useContext } from "react";
+import { TransactionsContext } from "../../Context/TransactionContext";
+
+const useTransactions = () => useContext(TransactionsContext);
 import { categoryBreakdown } from "../../Utils/Analytics";
 
 const COLORS = [
@@ -19,19 +22,21 @@ const COLORS = [
 ];
 
 export default function CategoryBreakdown() {
-  const { transactions } = useTransactions();
+  const context = useTransactions();
+  const transactions = context?.transactions || [];
   const data = categoryBreakdown(transactions);
 
   return (
     <Box
       sx={{
         p: 3,
-        borderRadius: 3,
-        background: "#ffffff",
-        border: "1px solid #e2e8f0",
+        borderRadius: 4,
+        background: "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(8, 14, 27, 0.92))",
+        border: "1px solid rgba(99, 102, 241, 0.18)",
+        boxShadow: "0 28px 68px rgba(7, 15, 32, 0.22)",
       }}
     >
-      <Typography fontWeight="bold" mb={2}>
+      <Typography fontWeight="bold" mb={2} color="#eef2ff">
         Spending Breakdown
       </Typography>
 
@@ -67,12 +72,19 @@ export default function CategoryBreakdown() {
                 key={item.category}
                 direction="row"
                 justifyContent="space-between"
+                alignItems="center"
+                sx={{
+                  px: 3,
+                  py: 1.75,
+                  borderRadius: 3,
+                  background: "rgba(148, 163, 184, 0.08)",
+                }}
               >
-                <Typography fontSize={14}>
+                <Typography fontSize={14} color="#e2e8f0">
                   {index + 1}. {item.category}
                 </Typography>
 
-                <Typography fontWeight={600}>
+                <Typography fontWeight={600} color="#cbd5e1">
                   ₹{item.amount.toLocaleString()}
                 </Typography>
               </Stack>

@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
-import {useTransactions}from "../../Context/TransactionsContext";
-import { calculateSummary } from "../../utils/analytics";
+import useTransactions from "../../Hooks/useTransactions";
+import { calculateSummary } from "../../Utils/Analytics";
 
 export default function SummaryStrip() {
   const { transactions } = useTransactions();
@@ -9,11 +9,12 @@ export default function SummaryStrip() {
   return (
     <Box
       sx={{
-        px: 3,
-        py: 2,
-        borderRadius: 3,
-        background: "#ffffff",
-        border: "1px solid #e2e8f0",
+        px: 4,
+        py: 3,
+        borderRadius: 4,
+        background: "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.82))",
+        border: "1px solid rgba(99, 102, 241, 0.22)",
+        boxShadow: "0 30px 70px rgba(7, 15, 32, 0.24)",
       }}
     >
       <Stack
@@ -53,12 +54,12 @@ function Metric({
       <Typography
         fontWeight="bold"
         sx={{
-          fontSize: 20,
+          fontSize: 22,
           color: positive
             ? "#22c55e"
             : negative
-            ? "#ef4444"
-            : "#0f172a",
+            ? "#fb7185"
+            : "#f8fafc",
         }}
       >
         {typeof value === "number" ? `₹${value.toLocaleString()}` : value}

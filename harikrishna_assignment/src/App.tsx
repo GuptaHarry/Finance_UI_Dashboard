@@ -1,13 +1,14 @@
-import DashboardPage from "./Pages/DashboardPage"
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import DashboardPage from "./Pages/DashboardPage";
+import theme from "./Theme/theme";
 
 function App() {
-  
-
   return (
-    <>
-      <DashboardPage/>
-    </>
-  )
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <DashboardPage />
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
