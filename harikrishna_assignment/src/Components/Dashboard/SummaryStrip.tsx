@@ -6,6 +6,56 @@ export default function SummaryStrip() {
   const { transactions } = useTransactions();
   const summary = calculateSummary(transactions);
 
+  const cards = [
+    {
+      label: "Total Balance",
+      value: summary.balance,
+      icon: <AccountBalanceWalletIcon />,
+      color: isDark ? "#f8fafc" : "#0f172a",
+      iconBg: isDark ? "rgba(99, 102, 241, 0.15)" : "rgba(99, 102, 241, 0.1)",
+      iconColor: "#6366f1",
+      gradient: isDark
+        ? "linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.04))"
+        : "linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.02))",
+    },
+    {
+      label: "Income",
+      value: summary.income,
+      icon: <TrendingUpIcon />,
+      color: "#22c55e",
+      iconBg: "rgba(34, 197, 94, 0.15)",
+      iconColor: "#22c55e",
+      gradient: isDark
+        ? "linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(20, 184, 166, 0.04))"
+        : "linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(20, 184, 166, 0.02))",
+      positive: true,
+    },
+    {
+      label: "Expenses",
+      value: summary.expenses,
+      icon: <TrendingDownIcon />,
+      color: "#fb7185",
+      iconBg: "rgba(251, 113, 133, 0.15)",
+      iconColor: "#fb7185",
+      gradient: isDark
+        ? "linear-gradient(135deg, rgba(251, 113, 133, 0.08), rgba(239, 68, 68, 0.04))"
+        : "linear-gradient(135deg, rgba(251, 113, 133, 0.05), rgba(239, 68, 68, 0.02))",
+      negative: true,
+    },
+    {
+      label: "Savings Rate",
+      value: `${summary.savingsRate.toFixed(1)}%`,
+      icon: <SavingsIcon />,
+      color: isDark ? "#14b8a6" : "#0d9488",
+      iconBg: "rgba(20, 184, 166, 0.15)",
+      iconColor: "#14b8a6",
+      gradient: isDark
+        ? "linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(6, 182, 212, 0.04))"
+        : "linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(6, 182, 212, 0.02))",
+      isPercentage: true,
+    },
+  ];
+
   return (
     <Box
       sx={{

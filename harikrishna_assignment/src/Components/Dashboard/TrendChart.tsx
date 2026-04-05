@@ -17,7 +17,7 @@ export default function TrendChart() {
   return (
     <Box
       sx={{
-        p: 3,
+        p: { xs: 2.5, md: 3.5 },
         borderRadius: 4,
         background: "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(8, 14, 27, 0.95))",
         border: "1px solid rgba(99, 102, 241, 0.2)",
