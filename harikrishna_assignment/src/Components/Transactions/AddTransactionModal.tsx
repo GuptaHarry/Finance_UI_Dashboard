@@ -50,6 +50,7 @@ export default function AddTransactionModal({
   onEdit,
   isDark = true,
 }: AddTransactionModalProps) {
+  console.log("[v0] AddTransactionModal render - open:", open);
   const isEditMode = !!editTransaction;
 
   const [title, setTitle] = useState("");
@@ -102,7 +103,12 @@ export default function AddTransactionModal({
   };
 
   const handleSubmit = () => {
-    if (!validate()) return;
+    console.log("[v0] Submit clicked, validating...");
+    if (!validate()) {
+      console.log("[v0] Validation failed:", errors);
+      return;
+    }
+    console.log("[v0] Validation passed, creating transaction");
 
     const transaction: Transaction = {
       id: editTransaction?.id || `t${Date.now()}`,
@@ -116,11 +122,14 @@ export default function AddTransactionModal({
     };
 
     if (isEditMode && onEdit) {
+      console.log("[v0] Editing transaction:", transaction);
       onEdit(transaction);
     } else {
+      console.log("[v0] Calling onAdd with:", transaction);
       onAdd(transaction);
     }
 
+    console.log("[v0] Closing modal");
     onClose();
   };
 
