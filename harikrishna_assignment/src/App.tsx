@@ -1,14 +1,8 @@
 import { ThemeProvider, CssBaseline } from "@mui/material";
-import { useMemo } from "react";
 import DashboardPage from "./Pages/DashboardPage";
-import { getTheme } from "./Theme/theme";
-import useUI from "./Hooks/useUI";
+import theme from "./Theme/theme";
 
-function AppContent() {
-  const { themeMode } = useUI();
-
-  const theme = useMemo(() => getTheme(themeMode), [themeMode]);
-
+function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -17,6 +11,4 @@ function AppContent() {
   );
 }
 
-export default function App() {
-  return <AppContent />;
-}
+export default App;
