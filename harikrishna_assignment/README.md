@@ -1,165 +1,73 @@
-# Finance Dashboard UI
+# React + TypeScript + Vite
 
-A comprehensive, interactive finance dashboard built with React, TypeScript, and Material-UI. This project demonstrates modern frontend development practices with clean architecture, responsive design, and intuitive user experience.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-**Author:** Harikrishna Gupta  
-**Tech Stack:** React 19, TypeScript, Vite, Material-UI, Recharts
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## Features
+## React Compiler
 
-### Core Requirements
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-1. **Dashboard Overview**
-   - Summary cards displaying Total Balance, Income, Expenses, and Savings Rate
-   - Interactive area chart showing balance trend over time
-   - Pie chart visualization for spending breakdown by category
-   - Real-time calculations based on transaction data
+## Expanding the ESLint configuration
 
-2. **Transactions Section**
-   - Complete transaction list with filtering and search
-   - Filter by type (Income/Expense) and category
-   - Sort by date, amount, or title (ascending/descending)
-   - Export transactions to Excel file
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-3. **Role-Based UI (RBAC)**
-   - Toggle between Viewer and Admin modes
-   - Viewer: Read-only access to all data
-   - Admin: Full CRUD operations on transactions
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-4. **Insights Section**
-   - Highest expense category with amount
-   - Average daily spend calculation
-   - Spending trend analysis (increasing/decreasing/stable)
-   - Savings goal progress indicator (30% target)
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-5. **State Management**
-   - React Context API for global state
-   - Separate contexts for UI state and transaction data
-   - Custom hooks for clean component integration
-
-### Optional Enhancements (Implemented)
-
-- **Dark/Light Mode**: Toggle between themes with smooth transitions
-- **Data Persistence**: Local storage for transactions and preferences
-- **Export Functionality**: Export filtered transactions to Excel
-- **Animations**: Smooth transitions and hover effects throughout
-- **Empty State Handling**: Graceful UI when no data is available
-
----
-
-## Project Structure
-
-```
-src/
-├── Components/
-│   ├── Dashboard/
-│   │   ├── SummaryStrip.tsx      # Balance, Income, Expenses cards
-│   │   ├── TrendChart.tsx        # Balance trend area chart
-│   │   ├── CategoryBreakdown.tsx # Spending pie chart
-│   │   └── InsightsPanel.tsx     # Financial insights
-│   └── Transactions/
-│       ├── TransactionTable.tsx  # Main transaction list
-│       ├── TransactionRow.tsx    # Individual transaction item
-│       └── AddTransactionModal.tsx # Add/Edit modal
-├── Context/
-│   ├── UIContext.tsx             # Role and theme state
-│   ├── UIProvider.tsx            # UI context provider
-│   ├── TransactionContext.ts     # Transaction state type
-│   └── TransactionProvider.tsx   # Transaction context provider
-├── Hooks/
-│   ├── useUI.ts                  # UI context hook
-│   └── useTransactions.ts        # Transaction context hook
-├── Utils/
-│   ├── Analytics.ts              # Data calculations
-│   └── Export.ts                 # Excel export utility
-├── Data/
-│   └── mockTransactions.ts       # Sample transaction data
-├── Types/
-│   └── mockTransactionType.ts    # TypeScript interfaces
-├── Theme/
-│   └── theme.ts                  # MUI theme configuration
-└── Pages/
-    └── DashboardPage.tsx         # Main dashboard layout
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Setup Instructions
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-### Prerequisites
-- Node.js 18+ 
-- npm, yarn, or pnpm
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd harikrishna_assignment
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-```
-
-3. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-4. Open http://localhost:5173 in your browser
-
-### Build for Production
-
-```bash
-npm run build
-npm run preview
-```
-
----
-
-## Key Implementation Details
-
-### State Management Approach
-- Used React Context API for simplicity and clarity
-- Separate contexts for different concerns (UI vs Data)
-- Custom hooks abstract away context consumption
-- Persisted state survives page refreshes via localStorage
-
-### Design Decisions
-- **Material-UI**: Chosen for comprehensive component library and theming
-- **Recharts**: Lightweight, composable charting library
-- **TypeScript**: Full type safety across the application
-- **Responsive Design**: Mobile-first approach with breakpoints
-
-### Performance Considerations
-- Memoized theme computation based on mode
-- Efficient filtering and sorting in-place
-- Minimal re-renders through proper context structure
-
----
-
-## Screenshots
-
-The dashboard includes:
-- Responsive layout that works on mobile, tablet, and desktop
-- Dark and light theme options
-- Interactive charts with tooltips
-- Animated transitions and hover effects
-
----
-
-## License
-
-This project was created for evaluation purposes as part of an internship assignment.

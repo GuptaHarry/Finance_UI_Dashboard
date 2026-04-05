@@ -1,17 +1,10 @@
-import { Box, Stack, Typography, Grow } from "@mui/material";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import TrendingDownIcon from "@mui/icons-material/TrendingDown";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import SavingsIcon from "@mui/icons-material/Savings";
+import { Box, Stack, Typography } from "@mui/material";
 import useTransactions from "../../Hooks/useTransactions";
-import useUI from "../../Hooks/useUI";
 import { calculateSummary } from "../../Utils/Analytics";
 
 export default function SummaryStrip() {
   const { transactions } = useTransactions();
-  const { themeMode } = useUI();
   const summary = calculateSummary(transactions);
-  const isDark = themeMode === "dark";
 
   const cards = [
     {
@@ -66,98 +59,61 @@ export default function SummaryStrip() {
   return (
     <Box
       sx={{
-        px: { xs: 2, md: 4 },
+        px: 4,
         py: 3,
         borderRadius: 4,
-        background: isDark
-          ? "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.82))"
-          : "linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95))",
-        border: isDark
-          ? "1px solid rgba(99, 102, 241, 0.22)"
-          : "1px solid rgba(226, 232, 240, 1)",
-        boxShadow: isDark
-          ? "0 30px 70px rgba(7, 15, 32, 0.24)"
-          : "0 10px 30px rgba(0, 0, 0, 0.04)",
-        transition: "all 0.3s ease",
+        background: "linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.82))",
+        border: "1px solid rgba(99, 102, 241, 0.22)",
+        boxShadow: "0 30px 70px rgba(7, 15, 32, 0.24)",
       }}
     >
       <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={{ xs: 2, sm: 2, md: 3 }}
+        direction={{ xs: "column", md: "row" }}
+        spacing={3}
         justifyContent="space-between"
-        flexWrap="wrap"
-        useFlexGap
       >
-        {cards.map((card, index) => (
-          <Grow in timeout={300 + index * 100} key={card.label}>
-            <Stack
-              direction="row"
-              spacing={2}
-              alignItems="center"
-              sx={{
-                flex: { xs: "1 1 45%", md: 1 },
-                minWidth: { xs: 145, sm: 170 },
-                p: 2.5,
-                borderRadius: 3,
-                background: card.gradient,
-                border: isDark
-                  ? "1px solid rgba(148, 163, 184, 0.08)"
-                  : "1px solid rgba(226, 232, 240, 0.6)",
-                transition: "all 0.25s ease",
-                cursor: "default",
-                "&:hover": {
-                  transform: "translateY(-4px)",
-                  boxShadow: isDark
-                    ? `0 12px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px ${card.iconColor}20`
-                    : `0 12px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px ${card.iconColor}15`,
-                  borderColor: `${card.iconColor}30`,
-                },
-              }}
-            >
-              <Box
-                sx={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 3,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  bgcolor: card.iconBg,
-                  color: card.iconColor,
-                  transition: "all 0.25s ease",
-                  "& svg": {
-                    fontSize: 24,
-                  },
-                }}
-              >
-                {card.icon}
-              </Box>
-              <Stack spacing={0.5}>
-                <Typography
-                  fontSize={12}
-                  fontWeight={500}
-                  letterSpacing={0.3}
-                  sx={{ color: isDark ? "#94a3b8" : "#64748b" }}
-                >
-                  {card.label}
-                </Typography>
-                <Typography
-                  fontWeight={700}
-                  sx={{
-                    fontSize: { xs: 20, md: 24 },
-                    color: card.color,
-                    letterSpacing: -0.5,
-                  }}
-                >
-                  {typeof card.value === "number"
-                    ? `₹${card.value.toLocaleString()}`
-                    : card.value}
-                </Typography>
-              </Stack>
-            </Stack>
-          </Grow>
-        ))}
+        <Metric label="Balance" value={summary.balance} />
+        <Metric label="Income" value={summary.income} positive />
+        <Metric label="Expenses" value={summary.expenses} negative />
+        <Metric
+          label="Savings Rate"
+          value={`${summary.savingsRate.toFixed(1)}%`}
+        />
       </Stack>
     </Box>
+  );
+}
+
+function Metric({
+  label,
+  value,
+  positive,
+  negative,
+}: {
+  label: string;
+  value: number | string;
+  positive?: boolean;
+  negative?: boolean;
+}) {
+  return (
+    <Stack spacing={0.5}>
+      <Typography fontSize={13} color="text.secondary">
+        {label}
+      </Typography>
+
+      <Typography
+        fontWeight="bold"
+        sx={{
+          fontSize: 22,
+          color: positive
+            ? "#22c55e"
+            : negative
+            ? "#fb7185"
+            : "#f8fafc",
+        }}
+      >
+        {typeof value === "number" ? `₹${value.toLocaleString()}` : value}
+      </Typography>
+    </Stack>
   );
 }
